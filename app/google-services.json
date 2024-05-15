@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "599085098305",
+    "project_id": "multi-watch-time-generator",
+    "storage_bucket": "multi-watch-time-generator.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599085098305:android:e765abb8a4a423d42badc0",
+        "android_client_info": {
+          "package_name": "com.bhagawatiapps.multiviewbrowser"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-1XZB9xBoWrmkMRmtIj9xy2W1HqrwA0A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
