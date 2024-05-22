@@ -1,5 +1,6 @@
 package com.bhagawatiapps.multiviewbrowser;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     int Tno = 0;
     int RefreshTime = 75;
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,31 +96,31 @@ public class MainActivity extends AppCompatActivity {
                 Intent ShareIntent = new Intent(Intent.ACTION_SEND);
                 ShareIntent.setType("text/plain");
                 ShareIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.app_name);
-                String shareMessage = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID + "\n\n\n";
+                String shareMessage = "https://play.google.com/store/apps/details?id=com.bhagawatiapps.multiviewbrowser "+ "\n\n\n";
                 ShareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                 startActivity(Intent.createChooser(ShareIntent, "Share with: "));
             } else if (ID == R.id.Rate) {
                 // Handle Rate option
                 drawerLayout.closeDrawer(GravityCompat.START);
                 try {
-                    Intent RateIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("market://details?id=" + getPackageName()));
+                    Intent RateIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("https://play.google.com/store/apps/details?id=com.bhagawatiapps.multiviewbrowser"));
                     startActivity(RateIntent);
                 } catch (ActivityNotFoundException e) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.bhagawatiapps.multiviewbrowser")));
                 }
             } else if (ID == R.id.Update) {
                 // Handle Update option
                 drawerLayout.closeDrawer(GravityCompat.START);
                 try {
-                    Intent RateIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("market://details?id=" + getPackageName()));
+                    Intent RateIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("https://play.google.com/store/apps/details?id=com.bhagawatiapps.multiviewbrowser"));
                     startActivity(RateIntent);
                 } catch (ActivityNotFoundException e) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.bhagawatiapps.multiviewbrowser")));
                 }
             } else if (ID == R.id.PrivecyPolicy) {
                 // Handle Privacy Policy option
                 drawerLayout.closeDrawer(GravityCompat.START);
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://docs.google.com/document/d/e/2PACX-1vRrOv_ZivmIbOrIWw9_hny5wgvu0JQPFgu6D7ewBRz_QwiWSCXz2AXZiJ3lFGfN7ZCb6ml1QD4P7BBi/pub"));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://bhagawatiappsweb.blogspot.com/2024/05/multi-view-browser-app-privacy-policy.html"));
                 startActivity(browserIntent);
             }
 
