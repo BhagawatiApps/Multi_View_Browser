@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MultiViewBrowser"
         tools:targetApi="31">
+
         <activity
             android:name=".YoutubeViewerPage"
             android:exported="false" />
@@ -23,10 +24,19 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/APP_ID" />
+
+        <property
+            android:name="android.adservices.AD_SERVICES_CONFIG"
+            android:resource="@xml/ga_ad_services_config"
+            tools:replace="android:resource" />
+
     </application>
 
 </manifest>

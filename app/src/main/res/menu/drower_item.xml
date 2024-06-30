@@ -3,32 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menu_share"
         android:title="Share with friends"
-        android:id="@+id/Share"
         android:orderInCategory="100"
         android:icon="@drawable/ic_baseline_share_24"
         />
 
     <item
+        android:id="@+id/menu_rate"
         android:title="Rate Us"
-        android:id="@+id/Rate"
         android:orderInCategory="100"
         android:icon="@drawable/ic_baseline_star_rate_24"
         />
 
     <item
-        android:title="Get New Feachers"
-        android:id="@+id/Update"
+        android:id="@+id/menu_update"
+        android:title="Get New Features"
         android:orderInCategory="100"
         android:icon="@drawable/upgrade_update_icon"
         />
 
     <item
-        android:title="Privecy Polocy"
-        android:id="@+id/PrivecyPolicy"
+        android:id="@+id/menu_privacy_policy"
+        android:title="Privacy Policy"
         android:orderInCategory="100"
         android:icon="@drawable/ic_baseline_policy_24"
         />
-
 
 </menu>

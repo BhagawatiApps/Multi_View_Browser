@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,18 +23,19 @@ import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.tasks.Task;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.UpdateAvailability;
-import com.google.android.play.core.tasks.Task;
 
 import java.util.ArrayList;
 
 import hotchemi.android.rate.AppRate;
-import hotchemi.android.rate.BuildConfig;
 
 public class MainActivity extends AppCompatActivity {
     public static int UPDATE_CODE = 100;
@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     CardView GetMoreViews, GmvInLoop, DVinDTab, Thankful;
     AppUpdateManager appUpdateManager;
+
+    AdRequest adRequest;
 
     // Declare variables
     String Vdo = "";
@@ -90,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             int ID = item.getItemId();
 
             // Handle NavigationView item clicks
-            if (ID == R.id.Share) {
+            if (ID == R.id.menu_share) {
                 // Handle Share option
                 drawerLayout.closeDrawer(GravityCompat.START);
                 Intent ShareIntent = new Intent(Intent.ACTION_SEND);
@@ -99,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 String shareMessage = "https://play.google.com/store/apps/details?id=com.bhagawatiapps.multiviewbrowser "+ "\n\n\n";
                 ShareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                 startActivity(Intent.createChooser(ShareIntent, "Share with: "));
-            } else if (ID == R.id.Rate) {
+            } else if (ID == R.id.menu_rate) {
                 // Handle Rate option
                 drawerLayout.closeDrawer(GravityCompat.START);
                 try {
@@ -108,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (ActivityNotFoundException e) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.bhagawatiapps.multiviewbrowser")));
                 }
-            } else if (ID == R.id.Update) {
+            } else if (ID == R.id.menu_update) {
                 // Handle Update option
                 drawerLayout.closeDrawer(GravityCompat.START);
                 try {
@@ -117,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (ActivityNotFoundException e) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.bhagawatiapps.multiviewbrowser")));
                 }
-            } else if (ID == R.id.PrivecyPolicy) {
+            } else if (ID == R.id.menu_privacy_policy) {
                 // Handle Privacy Policy option
                 drawerLayout.closeDrawer(GravityCompat.START);
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://bhagawatiappsweb.blogspot.com/2024/05/multi-view-browser-app-privacy-policy.html"));
@@ -222,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!VideoLink.getText().toString().isEmpty() && !VideoLength.getText().toString().isEmpty()) {
 
                     Vdo = VideoLink.getText().toString();
-                    RefreshTime = Integer.valueOf(VideoLength.getText().toString());
+                    RefreshTime = Integer.parseInt(VideoLength.getText().toString());
 
                     Intent intent = new Intent(MainActivity.this, YoutubeViewerPage.class);
                     intent.putExtra("Vlink", Vdo);
@@ -288,7 +290,12 @@ public class MainActivity extends AppCompatActivity {
         // Started InApp Update coding hear
         InApp();
 
-
+        // Setting Ad
+        AdView adView = findViewById(R.id.adView);
+        MobileAds.initialize(this, initializationStatus -> {
+        });
+        adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
 
 
     }
@@ -310,20 +317,6 @@ public class MainActivity extends AppCompatActivity {
             // Handle any failure to obtain AppUpdateInfo, such as network errors
             Log.e("InAppUpdate", "Failed to obtain AppUpdateInfo: " + e.getMessage());
         });
-    }
-
-
-    private void popUp() {
-
-        Snackbar snackbar = Snackbar.make(
-
-                findViewById(android.R.id.content), "App Update is done", Snackbar.LENGTH_INDEFINITE);
-
-
-        snackbar.setAction("Reload", v -> appUpdateManager.completeUpdate());
-        snackbar.setTextColor(Color.parseColor("#FF0000"));
-        snackbar.show();
-
     }
 
     @Override

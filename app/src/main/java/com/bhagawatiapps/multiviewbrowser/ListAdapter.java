@@ -41,7 +41,7 @@ public class ListAdapter extends BaseAdapter {
         return position;
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressLint({"SetJavaScriptEnabled", "InflateParams"})
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
