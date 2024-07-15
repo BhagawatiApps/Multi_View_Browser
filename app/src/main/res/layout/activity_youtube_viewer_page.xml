@@ -45,9 +45,11 @@
         android:columnWidth="100dp"
         android:gravity="center"
         android:horizontalSpacing="5dp"
-        android:numColumns="2"
+        android:numColumns="auto_fit"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="5dp" />
+        android:verticalSpacing="5dp"
+        android:layout_marginBottom="?attr/actionBarSize"
+        />
 
     </LinearLayout>
 

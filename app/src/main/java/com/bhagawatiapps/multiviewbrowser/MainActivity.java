@@ -13,9 +13,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,9 +25,14 @@ import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.google.android.gms.tasks.Task;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
@@ -46,8 +53,11 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     CardView GetMoreViews, GmvInLoop, DVinDTab, Thankful;
     AppUpdateManager appUpdateManager;
+    RelativeLayout ad_Loader_Ly;
 
     AdRequest adRequest;
+    private RewardedAd rewardedAd;
+    private boolean rewardedAdLoaded;
 
     // Declare variables
     String Vdo = "";
@@ -64,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         // Initialize UI elements by finding their IDs
         drawerLayout = findViewById(R.id.DrawerLaout);
         NavigationView = findViewById(R.id.NavigationView);
@@ -73,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         GmvInLoop = findViewById(R.id.GmvInLoop);
         Thankful = findViewById(R.id.Thankful);
         DVinDTab = findViewById(R.id.DVinDTab);
+//        ad_Loader_Ly = findViewById(R.id.ad_Loader_Ly);
 
 
         // Set click listener for Navigation Icon (hamburger icon)
@@ -173,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("VTab", Tno);
                     intent.putExtra("RefreshTime", RefreshTime);
                     intent.putExtra("custom_tab", 1);
-                    startActivity(intent);
+                   startActivity(intent);
                     dialog.dismiss();
                 } else {
                     VideoLink.setBackground(getDrawable(R.drawable.worng_input_color));
@@ -271,7 +283,6 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("YTvideo3", YTvideo3);
                     intent.putExtra("YTvideo4", YTvideo4);
                     intent.putExtra("custom_tab", 3);
-
                     startActivity(intent);
                     dialog.dismiss();
                 } else {
@@ -331,6 +342,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 
 
 

@@ -13,14 +13,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.rewarded.RewardedAd;
-import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
+import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd;
+import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAdLoadCallback;
 
 import java.util.ArrayList;
 
@@ -34,9 +33,7 @@ public class YoutubeViewerPage extends AppCompatActivity {
     int CUSTOM_TAB;
     int RefreshTime = 0;
     com.bhagawatiapps.multiviewbrowser.ListAdapter adapter;
-    AdRequest adRequest;
-    private RewardedAd rewardedAd;
-    private boolean rewardedAdLoaded;
+    RewardedInterstitialAd rewardedInterstitialAd;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -49,6 +46,8 @@ public class YoutubeViewerPage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        loadRewardedInterstitialAd();
 
         // Initialize UI elements
         gridView = findViewById(R.id.gridView);
@@ -90,73 +89,51 @@ public class YoutubeViewerPage extends AppCompatActivity {
         AdView adView = findViewById(R.id.adView);
         MobileAds.initialize(this, initializationStatus -> {
         });
-        adRequest = new AdRequest.Builder().build();
+
+         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 
-        // Rewarded Video Ad
-        loadRewardedVideoAd();
-
-    }
-
-
-    private void loadRewardedVideoAd() {
-        if (rewardedAdLoaded) {
-            return;
-        }
-
-        AdRequest adRequest = new AdRequest.Builder().build();
-        RewardedAd.load(this, getString(R.string.Reworded_Ad), adRequest, new RewardedAdLoadCallback() {
-            @Override
-            public void onAdLoaded(@NonNull RewardedAd ad) {
-                rewardedAd = ad;
-                rewardedAdLoaded = true;
-                setFullScreenContentCallback();
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError adError) {
-                rewardedAd = null;
-                rewardedAdLoaded = false;
-            }
-        });
-    }
-
-    private void setFullScreenContentCallback() {
-        if (rewardedAd != null) {
-            rewardedAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-                @Override
-                public void onAdDismissedFullScreenContent() {
-                    rewardedAd = null;
-                    rewardedAdLoaded = false;
-                    loadRewardedVideoAd();
-                }
-
-                @Override
-                public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
-                    finish();
-                }
-            });
-        }
-    }
-
-    private void showRewardedVideoAd() {
-        if (rewardedAd != null) {
-            rewardedAd.show(this, rewardItem -> {
-                // Handle the reward
-                finish();
-            });
-        } else {
-            // Ad not loaded yet
-            loadRewardedVideoAd();
-        }
     }
 
     @Override
     public void onBackPressed() {
-        if (rewardedAdLoaded) {
-            showRewardedVideoAd();
+        if (rewardedInterstitialAd != null) {
+            setRewardedInterstitialAd();
         } else {
             super.onBackPressed();
         }
     }
+
+    private void loadRewardedInterstitialAd() {
+        RewardedInterstitialAd.load(
+                this,
+                getString(R.string.Rewarded_interstitial),
+                new AdRequest.Builder().build(),
+                new RewardedInterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull RewardedInterstitialAd ad) {
+                        rewardedInterstitialAd = ad;
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                    }
+                });
+    }
+
+    public void setRewardedInterstitialAd() {
+        if (rewardedInterstitialAd != null) {
+            rewardedInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                @Override
+                public void onAdDismissedFullScreenContent() {
+                    finish();
+                }
+            });
+            rewardedInterstitialAd.show(YoutubeViewerPage.this, rewardItem -> {
+            });
+        } else {
+            finish();
+        }
+    }
+
 }
